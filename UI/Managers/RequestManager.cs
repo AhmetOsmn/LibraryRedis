@@ -33,6 +33,26 @@ namespace UI.Managers
             return null;
         }
 
+        public async Task<string> AddReservation(ReservationDTO dto, TokenDTO tokenDto)
+        {
+            string serviceUrl = _configuration.GetValue<string>("ServiceUrl");
+            string loginUrl = serviceUrl + "api/reservation/add";
+            var result = await _webRequestService.CreatePostRequest(loginUrl, dto, tokenDto.Token);
+            if (!String.IsNullOrEmpty(result))
+                return result;
+            return null;
+        }
+
+        public async Task<string> DeleteReservation(Models.ReservationDeleteDTO dto, TokenDTO tokenDto)
+        {
+            string serviceUrl = _configuration.GetValue<string>("ServiceUrl");
+            string loginUrl = serviceUrl + "api/reservation/delete";
+            var result = await _webRequestService.CreatePostRequest(loginUrl, dto, tokenDto.Token);
+            if (!String.IsNullOrEmpty(result))
+                return result;
+            return null;
+        }
+
         public async Task AddCompany(CompanyDTO dto, TokenDTO tokenDTO)
         {
             string serviceUrl = _configuration.GetValue<string>("ServiceUrl");
@@ -89,10 +109,10 @@ namespace UI.Managers
             return null;
         }
 
-        public async Task<List<ReservationDTOUI>> GetReservations(TokenDTO dto,string userName)
+        public async Task<List<ReservationDTOUI>> GetReservations(TokenDTO dto,int userId)
         {
             string serviceUrl = _configuration.GetValue<string>("ServiceUrl");
-            string url = serviceUrl + "api/reservation/getByUserName?userName="+userName;
+            string url = serviceUrl + "api/reservation/getByUserId?userId="+userId;
             var result = await _webRequestService.CreateGetRequest(url, dto.Token);
             if (!String.IsNullOrEmpty(result))
                 return JsonConvert.DeserializeObject<List<ReservationDTOUI>>(result);
@@ -104,7 +124,6 @@ namespace UI.Managers
             string serviceUrl = _configuration.GetValue<string>("ServiceUrl");
             string loginUrl = serviceUrl + "api/book/update";
             var result = await _webRequestService.CreatePostRequest(loginUrl,book, dto.Token);
-            //Güncelleme döünüşü bildirim ekranı
         }
     }
 }

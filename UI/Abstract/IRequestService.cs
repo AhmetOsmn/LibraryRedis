@@ -9,15 +9,19 @@ namespace UI.Abstract
 {
     public interface IRequestService
     {
+        Task<string> AddBook(BookDTO dto, TokenDTO tokenDto);
+        Task<string> AddRegister(RegisterDTO dto);
+        Task AddCompany(CompanyDTO dto, TokenDTO tokenDTO);
+        Task<string> AddReservation(ReservationDTO dto, TokenDTO tokenDto);
+
+        Task UpdateBook(TokenDTO dto, UpdateBookDTO book);
+
+        Task<string> DeleteReservation(Models.ReservationDeleteDTO dto, TokenDTO tokenDto);
+
         Task<TokenDTO> CreateLoginRequest(UserLoginDTO dto);
         Task<User> GetLoggedInUserInformation(TokenDTO dto);
         Task<List<CompanyDTO>> GetAllCompanies(TokenDTO dto);
-        Task<string> AddBook(BookDTO dto, TokenDTO tokenDto);
-        Task AddCompany(CompanyDTO dto, TokenDTO tokenDTO);
         Task<List<Book>> GetAllBooks(TokenDTO dto);
-        Task<List<ReservationDTOUI>> GetReservations(TokenDTO dto, string userName);
-        Task UpdateBook(TokenDTO dto, UpdateBookDTO book);
-        Task<string> AddRegister(RegisterDTO dto);
-
+        Task<List<ReservationDTOUI>> GetReservations(TokenDTO dto, int userId);
     }
 }

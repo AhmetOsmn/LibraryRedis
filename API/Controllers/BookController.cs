@@ -46,13 +46,13 @@ namespace API.Controllers
             return Ok(result);
         }
 
-        [HttpGet("GetReservedBook")]
-        public async Task<IActionResult> GetReservedBook()
+        [HttpGet("GetReservedBooks")]
+        public async Task<IActionResult> GetReservedBook(int userId)
         {
-            var username = HttpContext.User.Identity.Name;
-            var user = await _userService.GetUserByUsername(username);
+            //var username = HttpContext.User.Identity.Name;
+            //var user = await _userService.GetUserByUsername(username);
 
-            var books = await _bookService.GetBooksByUserID(user.UserID);
+            var books = await _bookService.GetBooksByUserID(userId);
            
             return Ok(books);
         }

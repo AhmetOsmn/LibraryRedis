@@ -78,8 +78,10 @@ namespace API.Controllers
             var user = await _userService.Register(dto);
             if (user == null)
                 return BadRequest();
-            //var tokenResult = await _userService.CreateAccessToken(result);
-            redisCacheService.Add(user.UserName, user);
+
+            if(redisCacheService.IsConnected())
+                redisCacheService.Add(user.UserName, user);
+            
             return Ok(dto.UserName + "kayıt oldu");
         }
     }

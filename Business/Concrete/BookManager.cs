@@ -74,6 +74,7 @@ namespace Business.Concrete
             var book = await GetBookByBookId(dto.BookID);
             if (book == null)
                 return false;
+
             var user = await _userService.GetUserByUsername(userName);
             if (user == null)
                 return false;
