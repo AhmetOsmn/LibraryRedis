@@ -10,6 +10,6 @@ namespace Business.Abstract
         Task<bool> AddReservationAsync(ReservationDTO dto);
         bool DeleteReservation(int reservationId);
         IEnumerable<ReservationDTOGet> GetReservations();
-        IEnumerable<ReservationDTOGet> GetReservationsByUserID(int userID);
+        IEnumerable<ReservationDTOGet> GetReservationsByUserName(string userName);
     }
 }

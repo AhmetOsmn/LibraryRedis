@@ -39,8 +39,8 @@ namespace UI.Controllers
             var tokenDto = JsonConvert.DeserializeObject<TokenDTO>(HttpContext.Session.GetString("token"));
 
             // todo: burada user sınıfını kullanmak ne kadar dogru?
-            int currentUserID = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("user")).UserID;
-            var reservations = await _requestService.GetReservations(tokenDto, currentUserID);
+            string currentUserName = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("user")).UserName;
+            var reservations = await _requestService.GetReservations(tokenDto, currentUserName);
             return View(reservations);
         }
         [HttpGet]

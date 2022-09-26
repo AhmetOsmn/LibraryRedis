@@ -63,9 +63,9 @@ namespace Business.Concrete
             return _dalReservation.GetAllWithNames();
         }
 
-        public IEnumerable<ReservationDTOGet> GetReservationsByUserID(int userID)
+        public IEnumerable<ReservationDTOGet> GetReservationsByUserName(string userName)
         {
-            return _dalReservation.GetAllWithNamesByUserID(userID);
+            return _dalReservation.GetAllWithNamesByUserName(userName);
         }
     }
 }

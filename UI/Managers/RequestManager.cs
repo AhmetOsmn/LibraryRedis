@@ -89,10 +89,10 @@ namespace UI.Managers
             return null;
         }
 
-        public async Task<List<ReservationDTOUI>> GetReservations(TokenDTO dto,int userId)
+        public async Task<List<ReservationDTOUI>> GetReservations(TokenDTO dto,string userName)
         {
             string serviceUrl = _configuration.GetValue<string>("ServiceUrl");
-            string url = serviceUrl + "api/reservation/getByUserId?userId="+userId;
+            string url = serviceUrl + "api/reservation/getByUserName?userName="+userName;
             var result = await _webRequestService.CreateGetRequest(url, dto.Token);
             if (!String.IsNullOrEmpty(result))
                 return JsonConvert.DeserializeObject<List<ReservationDTOUI>>(result);
