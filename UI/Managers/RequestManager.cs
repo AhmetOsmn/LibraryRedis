@@ -103,7 +103,7 @@ namespace UI.Managers
         {
             string serviceUrl = _configuration.GetValue<string>("ServiceUrl");
             string loginUrl = serviceUrl + "api/book/update";
-            var result = await _webRequestService.CreateGetRequest(loginUrl, dto.Token);
+            var result = await _webRequestService.CreatePostRequest(loginUrl,book, dto.Token);
             //Güncelleme döünüşü bildirim ekranı
         }
     }
