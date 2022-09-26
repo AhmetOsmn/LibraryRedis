@@ -1,0 +1,43 @@
+﻿@using Entities.Concrete
+@model List<Book>
+
+@{
+    Layout = "_UserLayaout";
+}
+
+@foreach (var item in Model)
+{
+    <div class="col">
+        <div class="card shadow-sm" style="padding:15px; height:100%;">
+            <div class="row">
+                <div class="col">
+                    <b>@item.Name.ToUpper()</b>
+                </div>
+                <div class="col">
+                    <a style="float:right;" data-book-id="@item.BookID" id="reserve" class="btn btn-sm btn-outline-secondary">Rezerve Et</a>
+                </div>
+            </div>
+            <br />
+            <div style="height:50%;">
+                <img style="width:30%;" src="/@item.PhotoPath" />
+            </div>
+            <div style="margin-top:10px;">
+                <b>Yazar:</b> @item.Author.ToUpper()
+                <br>
+                <b>Sayfa Sayısı:</b> @item.PageCount.ToString()
+            </div>
+            <div style="margin-top:10px;">
+                <label><b>Özet:</b></label>
+                @if (item.Summary.Length > 200)
+                {
+                    <div>@item.Summary.Substring(0,200)</div>
+                }
+                else
+                {
+                    <div>@item.Summary</div>
+                }
+            </div>
+        </div>
+    </div>
+}
+

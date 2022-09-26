@@ -1,0 +1,150 @@
+﻿@using Entities.DTOs
+@model BookDTO
+@{
+    Layout = "_Layout";
+}
+<style>
+    .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+    }
+
+    .container {
+        max-width: 960px;
+    }
+
+    @@media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+            font-size: 3.5rem;
+        }
+    }
+
+    .b-example-divider {
+        height: 3rem;
+        background-color: rgba(0, 0, 0, .1);
+        border: solid rgba(0, 0, 0, .15);
+        border-width: 1px 0;
+        box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+    }
+
+    .b-example-vr {
+        flex-shrink: 0;
+        width: 1.5rem;
+        height: 100vh;
+    }
+
+    .bi {
+        vertical-align: -.125em;
+        fill: currentColor;
+    }
+
+    .nav-scroller {
+        position: relative;
+        z-index: 2;
+        height: 2.75rem;
+        overflow-y: hidden;
+    }
+
+        .nav-scroller .nav {
+            display: flex;
+            flex-wrap: nowrap;
+            padding-bottom: 1rem;
+            margin-top: -1px;
+            overflow-x: auto;
+            text-align: center;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+        }
+</style>
+
+
+
+
+
+
+
+<div>
+    <div class="container">
+        <main>
+            <div class="py-5 text-center">
+                <img class="d-block mx-auto mb-4" src="/image/library.png" alt="" width="72" height="57">
+                <h2>Kitap Ekle</h2>
+            </div>
+
+            <div class="row g-5">
+                <div class="col-md-7 col-lg-8">
+                    <form class="needs-validation" novalidate asp-controller="Admin" asp-action="AddBook" method="post" enctype="multipart/form-data">
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <label for="firstName" class="form-label">Kitap Adı</label>
+                                <input type="text" class="form-control" id="firstName" placeholder="" value="" asp-for="Name" required>
+                                <div class="invalid-feedback">
+                                    Geçerli bir ad gereklidir.
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <label for="lastName" class="form-label">Yazar</label>
+                                <input type="text" class="form-control" id="lastName" placeholder="" value="" asp-for="Author" required>
+                                <div class="invalid-feedback">
+                                    Kitabın yazarını giriniz.
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <label for="username" class="form-label">Özet</label>
+                                <div class="input-group has-validation">
+                                    <input type="text" class="form-control" id="username" placeholder="Özet" asp-for="Summary" required>
+                                    <div class="invalid-feedback">
+                                        Kitap özeti giriniz.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <label for="email" class="form-label">Sayfa Sayısı </label>
+                                <input type="number" class="form-control" id="email" placeholder="123" asp-for="PageCount" required>
+                                <div class="invalid-feedback">
+                                    Lütfen kitap sayfa numarasını giriniz.
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <label for="address" class="form-label">Basım Yılı</label>
+                                <input type="date" class="form-control" id="address" asp-for="PublishYear" required>
+                                <div class="invalid-feedback">
+                                    Lütfen kitabın basım yılını girin.
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <label for="company" class="form-label">Şirket Adı</label>
+                                <select class="form-control" asp-items="@ViewBag.Companies" asp-for="CompanyId" required></select>
+                                <div class="invalid-feedback">
+                                    Lütfen şirket adını seçiniz.
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <label for="firstName" class="form-label">Fotoğraf </label>
+                                <input type="file" class="form-control" id="lastname" placeholder="fotoğraf" asp-for="Photo" required>
+                                <div class="invalid-feedback">
+                                    Lütfen kitabın kapak fotoğrafını girin.
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="my-4">
+
+                        <button class="w-100 btn btn-primary btn-lg" type="submit">Kitap Ekle</button>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+

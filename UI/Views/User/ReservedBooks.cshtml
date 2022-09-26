@@ -1,0 +1,43 @@
+﻿@model List<ReservationDTOUI>
+
+@{
+    Layout = "_UserLayaout";
+}
+
+
+@foreach (var item in Model)
+{
+    <div class="col">
+        <div class="card shadow-sm" style="padding:15px; height:100%; border-color: lightgreen;">
+            <div class="row">
+                <div class="col">
+                    <b>@item.BookName.ToUpper()</b>
+                </div>
+                <div class="col">
+                    <a style="float:right;" data-book-id="@item.BookID" id="reserve" class="btn btn-sm btn-outline-secondary">İptal Et</a>
+                </div>
+            </div>
+            <br />
+            <div style="height:50%;">
+                <img style="width:30%;" src="/@item.PhotoPath" />
+            </div>
+            <div style="margin-top:10px;">
+                <b>Başlama:</b> @item.StartDate
+                <br>
+                <b>Bitiş:</b> @item.EndDate
+            </div>
+            <div style="margin-top:10px;">
+                <label><b>Özet:</b></label>
+                @if (item.BookSummary.Length > 200)
+                {
+                    <div>@item.BookSummary.Substring(0,200)</div>
+                }
+                else
+                {
+                    <div>@item.BookSummary</div>
+                }
+            </div>
+        </div>
+    </div>
+}
+
