@@ -12,13 +12,11 @@ namespace Business.Concrete
     {
         private readonly IUserDAL _dalUser;
         private readonly ITokenHelper _tokenHelper;
-        private readonly IRedisCacheService _redisCacheService;
 
-        public UserManager(IUserDAL dalUser, ITokenHelper tokenHelper, IRedisCacheService redisCacheService)
+        public UserManager(IUserDAL dalUser, ITokenHelper tokenHelper)
         {
             _dalUser = dalUser;
             _tokenHelper = tokenHelper;
-            _redisCacheService = redisCacheService;
         }
 
         public async Task<User> Login(string username, string password)
@@ -64,7 +62,6 @@ namespace Business.Concrete
                 PasswordSalt = passwordSalt,
             };
 
-            _redisCacheService.Add(user.UserName, user);
             await _dalUser.AddAsync(user);
             return user;
         }
@@ -91,7 +88,5 @@ namespace Business.Concrete
             var user = await _dalUser.GetAsync(x => x.UserName == userName);
             return user != null ? user : null;
         }
-
-
     }
 }

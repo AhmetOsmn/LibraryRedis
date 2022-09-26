@@ -33,7 +33,7 @@ namespace DAL.Concrete.EntityFramework
             return reservations;
         }
 
-        public IEnumerable<ReservationDTOGet> GetAllWithNamesByUserID(int userId)
+        public IEnumerable<ReservationDTOGet> GetAllWithNamesByUserName(string userName)
         {
             IEnumerable<ReservationDTOGet> reservations;
             using (DatabaseContext db = new DatabaseContext())
@@ -41,7 +41,7 @@ namespace DAL.Concrete.EntityFramework
                 reservations = (from res in db.Reservation
                                 join u in db.User on res.UserID equals u.UserID
                                 join b in db.Book on res.BookID equals b.BookID
-                                where res.IsActive == true && res.UserID == userId
+                                where res.IsActive == true && u.UserName == userName
                                 select new ReservationDTOGet
                                 {
                                     BookName = b.Name,

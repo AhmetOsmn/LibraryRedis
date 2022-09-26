@@ -1,6 +1,4 @@
 ﻿using Business.Abstract;
-using DAL.Abstract;
-using Entities.Concrete;
 using Entities.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -16,13 +14,11 @@ namespace API.Controllers
     {
         private readonly IBookService _bookService;
         private readonly IUserService _userService;
-        private readonly IRedisCacheService _redisCacheService;
 
-        public BookController(IBookService bookService, IUserService userService, IRedisCacheService redisCacheService)
+        public BookController(IBookService bookService, IUserService userService)
         {
             _bookService = bookService;
             _userService = userService;
-            _redisCacheService = redisCacheService;
         }
 
         [HttpPost("add")]
@@ -46,8 +42,6 @@ namespace API.Controllers
         [HttpGet("GetAll")]
         public async Task<IActionResult> GetAll()
         {
-            // todo: redis manager'a baglanti var mı metodu eklenecek
-
             var result = await _bookService.GetAllActiveBooksAsync();
             return Ok(result);
         }

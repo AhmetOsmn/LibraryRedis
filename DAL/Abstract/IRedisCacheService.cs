@@ -12,5 +12,6 @@ namespace DAL.Abstract
         void Remove(string key);
         void Clear();
         bool Any(string key);
+        bool IsConnected();
     }
 }

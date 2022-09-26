@@ -15,7 +15,7 @@ namespace UI.Abstract
         Task<string> AddBook(BookDTO dto, TokenDTO tokenDto);
         Task AddCompany(CompanyDTO dto, TokenDTO tokenDTO);
         Task<List<Book>> GetAllBooks(TokenDTO dto);
-        Task<List<ReservationDTOUI>> GetReservations(TokenDTO dto, int userId);
+        Task<List<ReservationDTOUI>> GetReservations(TokenDTO dto, string userName);
         Task UpdateBook(TokenDTO dto, UpdateBookDTO book);
         Task<string> AddRegister(RegisterDTO dto);
 

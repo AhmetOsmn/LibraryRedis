@@ -26,19 +26,24 @@ namespace API.Controllers
         public IActionResult GetAll()
         {
             var reservations = reservationService.GetReservations();
-            
-            if(reservations.Count() > 0) return Ok(reservations);
 
-            return BadRequest("Listelenecek rezervasyon yok");  
+            if (reservations.Count() > 0) return Ok(reservations);
+
+            return BadRequest("Listelenecek rezervasyon yok");
         }
 
 
-        [HttpGet("getByUserId")]
-        public IActionResult GetByUserId(int userId)
+        [HttpGet("getByUserName")]
+        public IActionResult GetByUserName(string userName)
         {
-            var reservedBookFromCache = cacheService.GetAll<ReservationDTOGet>("reserved:username:");
-                                                                                                   
-            return Ok(reservedBookFromCache);            
+            if (cacheService.IsConnected())
+            {
+                var reservedBookFromCache = cacheService.GetAll<ReservationDTOGet>("*reserved:" + userName + "*");
+                return Ok(reservedBookFromCache);
+            }
+
+            var reservedBooksFromDb = reservationService.GetReservationsByUserName(userName);
+            return Ok(reservedBooksFromDb);
         }
 
 

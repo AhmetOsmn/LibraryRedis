@@ -22,6 +22,11 @@ namespace DAL.Concrete.Redis
         }
 
 
+        public bool IsConnected()
+        {
+            return _connection.Connection().IsConnected;
+        }
+
         public void Add(string key, object value)
         {
             string jsonData = JsonConvert.SerializeObject(value);
@@ -60,7 +65,7 @@ namespace DAL.Concrete.Redis
         {
             List<T> list = new List<T>();
 
-            RedisResult keyList = _database.Execute("keys","*reserved:ahmet123*");
+            RedisResult keyList = _database.Execute("keys",key);
 
             foreach (var item in ((RedisKey[]?)keyList))
             {
