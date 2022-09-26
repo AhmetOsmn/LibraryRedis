@@ -22,27 +22,16 @@ namespace API.Controllers
             this.cacheService = cacheService;
         }
 
-        [HttpGet("getall")]
-        public IActionResult GetAll()
-        {
-            var reservations = reservationService.GetReservations();
-
-            if (reservations.Count() > 0) return Ok(reservations);
-
-            return BadRequest("Listelenecek rezervasyon yok");
-        }
-
-
-        [HttpGet("getByUserName")]
-        public IActionResult GetByUserName(string userName)
+        [HttpGet("getByUserId")]
+        public IActionResult GetByUserId(int userId)
         {
             if (cacheService.IsConnected())
             {
-                var reservedBookFromCache = cacheService.GetAll<ReservationDTOGet>("*reserved:" + userName + "*");
+                var reservedBookFromCache = cacheService.GetAll<ReservationDTOGet>("*reserved:user" + userId + ":*");
                 return Ok(reservedBookFromCache);
             }
 
-            var reservedBooksFromDb = reservationService.GetReservationsByUserName(userName);
+            var reservedBooksFromDb = reservationService.GetReservationsByUserId(userId);
             return Ok(reservedBooksFromDb);
         }
 
@@ -52,17 +41,35 @@ namespace API.Controllers
         {
             var result = await reservationService.AddReservationAsync(dto);
 
-            if (result) return Ok("kayit basarili");
-            return BadRequest("aynı kitap rezervasyon edilmiş");
+            if (result)
+            {
+                // todo: eger redis ayakta degil ise rezerve edilen kitap cache'den nasil getirilecek?
+                if (cacheService.IsConnected())
+                {
+                    ReservationDTOGet reservationDetail = reservationService.GetReservationDetailForCache(dto.UserID, dto.BookID);
+                    cacheService.Add("reserved:user" + dto.UserID + ":kitap" + dto.BookID, reservationDetail);
+                }
+                return Ok("kayit basarili");
+            }
+            return BadRequest("aynı kitap rezervasyon edilmis");
         }
 
 
         [HttpPost("delete")]
-        public IActionResult DeleteReservation(int reservationID)
+        public IActionResult DeleteReservation(ReservationDeleteDTO dto)
         {
-            var result = reservationService.DeleteReservation(reservationID);
+            var result = reservationService.DeleteReservation(dto.UserId, dto.BookId);
 
-            if (result) return Ok("silme basarili");
+            if (result)
+            {
+                // todo: redis calismiyorken silinen rezervasyon, redis geldiğinde hala gösteriliyor olacak. Nasıl çözebiliriz?
+                if(cacheService.IsConnected())
+                {
+                    cacheService.Remove("reserved:user" + dto.UserId + ":kitap" + dto.BookId);
+                }
+                return Ok("silme basarili");
+            }
+
             return BadRequest("reservasyon bulunamadi");
         }
     }

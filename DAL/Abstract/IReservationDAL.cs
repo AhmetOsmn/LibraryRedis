@@ -7,7 +7,7 @@ namespace DAL.Abstract
 {
     public interface IReservationDAL : IEntityRepository<Reservation>
     {
-        IEnumerable<ReservationDTOGet> GetAllWithNames();
-        IEnumerable<ReservationDTOGet> GetAllWithNamesByUserName(string userName);
+        ReservationDTOGet GetReservationDetailForCache(int userId, int bookId);
+        IEnumerable<ReservationDTOGet> GetAllWithNamesByUserId(int userId);
     }
 }

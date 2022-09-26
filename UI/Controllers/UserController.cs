@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using System.Threading.Tasks;
 using UI.Abstract;
 using UI.DTOs;
+using UI.Models;
 
 namespace UI.Controllers
 {
@@ -17,6 +18,9 @@ namespace UI.Controllers
         {
             _requestService = requestService;
         }
+
+        // todo: alt kısımlarda token session üzerinden alınıyor. Redis'ten mi alınmalı?
+
         [HttpGet]
         public async Task<IActionResult> Index()
         {
@@ -25,12 +29,23 @@ namespace UI.Controllers
             var books = await _requestService.GetAllBooks(tokenDto);
             return View(books);
         }
+
         [HttpPost]
         public async Task<IActionResult> Index(UpdateBookDTO dto)
         {
             var tokenDto = JsonConvert.DeserializeObject<TokenDTO>(HttpContext.Session.GetString("token"));
-            await _requestService.UpdateBook(tokenDto, dto);
-            return Ok();
+
+            // yeni rezervasyon oluşturulacak. EndDate olarak default 10 gün verilecek.
+            int currentUserID = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("user")).UserID;
+
+            var result = await _requestService.AddReservation(new ReservationDTO { BookID = dto.BookID, UserID = currentUserID },tokenDto);
+
+            if(result == "kayit basarili")
+            {
+                await _requestService.UpdateBook(tokenDto, dto);
+                return Ok();
+            }
+            return BadRequest();
         }
 
         [HttpGet]
@@ -38,16 +53,34 @@ namespace UI.Controllers
         {
             var tokenDto = JsonConvert.DeserializeObject<TokenDTO>(HttpContext.Session.GetString("token"));
 
-            // todo: burada user sınıfını kullanmak ne kadar dogru?
-            string currentUserName = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("user")).UserName;
-            var reservations = await _requestService.GetReservations(tokenDto, currentUserName);
+            int currentUserID = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("user")).UserID;
+
+            var reservations = await _requestService.GetReservations(tokenDto, currentUserID);
             return View(reservations);
+        }     
+        
+        [HttpPost]
+        public async Task<IActionResult> ReservedBooks(UpdateBookDTO dto)
+        {
+            var tokenDto = JsonConvert.DeserializeObject<TokenDTO>(HttpContext.Session.GetString("token"));
+
+            int currentUserID = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("user")).UserID;
+
+            var result = await _requestService.DeleteReservation(new Models.ReservationDeleteDTO { BookId = dto.BookID, UserId = currentUserID }, tokenDto);
+
+            if (result == "silme basarili")
+            {
+                await _requestService.UpdateBook(tokenDto, dto);
+                return Ok();
+            }
+            return BadRequest();
         }
+
+
         [HttpGet]
         public IActionResult Logout()
         {
             HttpContext.Session.Clear();
-            // todo: redisten veri silinecek.
             return RedirectToAction("SignIn", "Home");
         }
 
