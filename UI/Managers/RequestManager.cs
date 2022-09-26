@@ -106,7 +106,5 @@ namespace UI.Managers
             var result = await _webRequestService.CreateGetRequest(loginUrl, dto.Token);
             //Güncelleme döünüşü bildirim ekranı
         }
-
-
     }
 }
