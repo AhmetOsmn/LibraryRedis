@@ -148,7 +148,9 @@
             var data = {
                 bookID: bookId,
             };
-            if(isAdd==true){
+            console.log("isadd: "+isAdd);
+            console.log("result: " + (isAdd === true));
+            if(isAdd===true){
                 $.post("index", data);
                 location.reload();
             }
@@ -157,6 +159,5 @@
                 location.reload();
             }
         });
-
-    })
+    });
 </script>
