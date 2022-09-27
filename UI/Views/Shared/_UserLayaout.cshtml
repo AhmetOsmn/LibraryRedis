@@ -11,7 +11,6 @@
     <link rel="apple-touch-icon" href="/docs/5.2/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
     <link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
     <link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
-    <link rel="manifest" href="/docs/5.2/assets/img/favicons/manifest.json">
     <link rel="mask-icon" href="/docs/5.2/assets/img/favicons/safari-pinned-tab.svg" color="#712cf9">
     <link rel="icon" href="/docs/5.2/assets/img/favicons/favicon.ico">
     <meta name="theme-color" content="#712cf9">
@@ -76,8 +75,13 @@
             <div class="container">
                 <div class="row">
                     <div class="col-sm-8 col-md-7 py-4">
-                        <h4 class="text-white">Hakkımızda</h4>
-                        <p class="text-muted">Add some information about the album below, the author, or any other background context. Make it a few sentences long so folks can pick up some informative tidbits. Then, link them off to some social networking sites or contact information.</p>
+                        <h3><label>Hakkımızda.</label></h3>
+                        <p>
+                            Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                            Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                            when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+                            It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
+                        </p>
                     </div>
                     <div class="col-sm-4 offset-md-1 py-4">
                         <h4 class="text-white">Kullanıcı</h4>
@@ -148,15 +152,19 @@
             var data = {
                 bookID: bookId,
             };
-            console.log("isadd: "+isAdd);
-            console.log("result: " + (isAdd === true));
-            if(isAdd===true){
+            if (isAdd === true) {
                 $.post("index", data);
-                location.reload();
+                //location.reload();
+                setTimeout(() => {
+                    document.location.reload();
+                }, 300);
             }
-            else{
+            else {
                 $.post("reservedbooks", data);
-                location.reload();
+                //location.reload();
+                setTimeout(() => {
+                    document.location.reload();
+                }, 300);
             }
         });
     });

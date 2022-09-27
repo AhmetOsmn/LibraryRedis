@@ -1,6 +1,4 @@
-﻿
-
-using Business.Abstract;
+﻿using Business.Abstract;
 using Core.Utilities.Security.JWT;
 using DAL.Abstract;
 using Entities.Concrete;
@@ -80,7 +78,7 @@ namespace API.Controllers
                 return BadRequest();
 
             if(redisCacheService.IsConnected())
-                redisCacheService.Add(user.UserName, user);
+                redisCacheService.Add("user:"+user.UserName, user);
             
             return Ok(dto.UserName + "kayıt oldu");
         }
