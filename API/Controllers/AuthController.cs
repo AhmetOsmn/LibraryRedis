@@ -47,6 +47,8 @@ namespace API.Controllers
                     user = userFromDb;
                 }
 
+                // todo tek bir yerde tutulacak
+
                 var tokenFromRedis = redisCacheService.Get<AccessToken>("token:" + dto.Username);
 
                 if (tokenFromRedis != null)

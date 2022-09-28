@@ -36,9 +36,6 @@ namespace API
 
             var tokenOptions = Configuration.GetSection("TokenSettings").Get<TokenOptionsDTO>();
 
-            //test commit
-            var s = 1;
-
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
