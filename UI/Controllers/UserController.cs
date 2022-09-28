@@ -1,4 +1,6 @@
-﻿using Entities.Concrete;
+﻿using Business.Abstract;
+using DAL.Abstract;
+using Entities.Concrete;
 using Entities.DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,19 +15,41 @@ namespace UI.Controllers
     public class UserController : Controller
     {
         private readonly IRequestService _requestService;
+        private readonly IRedisCacheService _cacheService;
 
-        public UserController(IRequestService requestService)
+        public UserController(IRequestService requestService, IRedisCacheService cacheService)
         {
             _requestService = requestService;
+            _cacheService = cacheService;
         }
+
+        User currentUser;
 
         // todo: alt kısımlarda token session üzerinden alınıyor. Redis'ten mi alınmalı?
 
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var tokenDto = JsonConvert.DeserializeObject<TokenDTO>(HttpContext.Session.GetString("token"));
+            currentUser = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("user"));
 
+            TokenDTO tokenDto;
+
+            if (_cacheService.IsConnected())
+            {
+                tokenDto = _cacheService.Get<TokenDTO>("token:" + currentUser.UserName);
+
+                if(tokenDto == null)
+                {
+                    tokenDto = JsonConvert.DeserializeObject<TokenDTO>(HttpContext.Session.GetString("token"));
+                    _cacheService.Add("token:" + currentUser.UserName, tokenDto, tokenDto.Expiration);
+                }
+            }
+            else
+            {
+                tokenDto = JsonConvert.DeserializeObject<TokenDTO>(HttpContext.Session.GetString("token"));                
+            }
+
+            // todo: buraya bakılacak, dogru calismiyor sanki
             var books = await _requestService.GetAllBooks(tokenDto);
             return View(books);
         }
@@ -33,14 +57,28 @@ namespace UI.Controllers
         [HttpPost]
         public async Task<IActionResult> Index(UpdateBookDTO dto)
         {
-            var tokenDto = JsonConvert.DeserializeObject<TokenDTO>(HttpContext.Session.GetString("token"));
+            currentUser = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("user"));
 
-            // yeni rezervasyon oluşturulacak. EndDate olarak default 10 gün verilecek.
-            int currentUserID = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("user")).UserID;
+            TokenDTO tokenDto;
+            if (_cacheService.IsConnected())
+            {
+                tokenDto = _cacheService.Get<TokenDTO>("token:" + currentUser.UserName);
 
-            var result = await _requestService.AddReservation(new ReservationDTO { BookID = dto.BookID, UserID = currentUserID },tokenDto);
+                if (tokenDto == null)
+                {
+                    tokenDto = JsonConvert.DeserializeObject<TokenDTO>(HttpContext.Session.GetString("token"));
+                    _cacheService.Add("token:" + currentUser.UserName, tokenDto, tokenDto.Expiration);
+                }
+            }
+            else
+            {
+                tokenDto = JsonConvert.DeserializeObject<TokenDTO>(HttpContext.Session.GetString("token"));
+            }
 
-            if(result == "kayit basarili")
+
+            var result = await _requestService.AddReservation(new ReservationDTO { BookID = dto.BookID, UserID = currentUser.UserID }, tokenDto);
+
+            if (result == "kayit basarili")
             {
                 await _requestService.UpdateBook(tokenDto, dto);
                 return Ok();
@@ -51,22 +89,51 @@ namespace UI.Controllers
         [HttpGet]
         public async Task<IActionResult> ReservedBooks()
         {
-            var tokenDto = JsonConvert.DeserializeObject<TokenDTO>(HttpContext.Session.GetString("token"));
+            currentUser = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("user"));
 
-            int currentUserID = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("user")).UserID;
+            TokenDTO tokenDto;
+            if (_cacheService.IsConnected())
+            {
+                tokenDto = _cacheService.Get<TokenDTO>("token:" + currentUser.UserName);
 
-            var reservations = await _requestService.GetReservations(tokenDto, currentUserID);
+                if (tokenDto == null)
+                {
+                    tokenDto = JsonConvert.DeserializeObject<TokenDTO>(HttpContext.Session.GetString("token"));
+                    _cacheService.Add("token:" + currentUser.UserName, tokenDto, tokenDto.Expiration);
+                }
+            }
+            else
+            {
+                tokenDto = JsonConvert.DeserializeObject<TokenDTO>(HttpContext.Session.GetString("token"));
+            }
+
+
+            var reservations = await _requestService.GetReservations(tokenDto, currentUser.UserID);
             return View(reservations);
-        }     
-        
+        }
+
         [HttpPost]
         public async Task<IActionResult> ReservedBooks(UpdateBookDTO dto)
         {
-            var tokenDto = JsonConvert.DeserializeObject<TokenDTO>(HttpContext.Session.GetString("token"));
+            currentUser = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("user"));
 
-            int currentUserID = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("user")).UserID;
+            TokenDTO tokenDto;
+            if (_cacheService.IsConnected())
+            {
+                tokenDto = _cacheService.Get<TokenDTO>("token:" + currentUser.UserName);
 
-            var result = await _requestService.DeleteReservation(new Models.ReservationDeleteDTO { BookId = dto.BookID, UserId = currentUserID }, tokenDto);
+                if (tokenDto == null)
+                {
+                    tokenDto = JsonConvert.DeserializeObject<TokenDTO>(HttpContext.Session.GetString("token"));
+                    _cacheService.Add("token:" + currentUser.UserName, tokenDto, tokenDto.Expiration);
+                }
+            }
+            else
+            {
+                tokenDto = JsonConvert.DeserializeObject<TokenDTO>(HttpContext.Session.GetString("token"));
+            }
+
+            var result = await _requestService.DeleteReservation(new Models.ReservationDeleteDTO { BookId = dto.BookID, UserId = currentUser.UserID }, tokenDto);
 
             if (result == "silme basarili")
             {

@@ -39,7 +39,7 @@ namespace API.Controllers
             return BadRequest();
         }
 
-        [HttpGet("GetAll")]
+        [HttpGet("getall")]
         public async Task<IActionResult> GetAll()
         {
             var result = await _bookService.GetAllActiveBooksAsync();

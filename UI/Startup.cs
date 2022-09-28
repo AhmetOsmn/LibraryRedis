@@ -1,5 +1,8 @@
 using Business.Abstract;
 using Business.Concrete;
+using Core.Utilities.RedisConfig;
+using DAL.Abstract;
+using DAL.Concrete.Redis;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -27,7 +30,8 @@ namespace UI
             {
                 option.IdleTimeout = TimeSpan.FromMinutes(100);
             });
-            services.AddScoped<IWebRequestService, WebRequestManager>();
+            services.AddSingleton<IRedisConfig, RedisConfig>();
+            services.AddSingleton<IRedisCacheService, RedisCacheManager>(); services.AddScoped<IWebRequestService, WebRequestManager>();
             services.AddScoped<IRequestService, RequestManager>();
             services.AddScoped<IFileService, FileManager>();
             services.AddControllersWithViews();

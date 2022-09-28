@@ -19,6 +19,7 @@ namespace DAL.Concrete.Redis
             _connection = connection;
             // 0. db
             _database = _connection.Connection().GetDatabase(1);
+            Clear();
         }
 
 
@@ -49,7 +50,13 @@ namespace DAL.Concrete.Redis
 
         public void Clear()
         {
-            _database.Multiplexer.GetServer("http:localhost:6379").FlushDatabase();
+            //_database.Multiplexer.GetServer("http:localhost:6379").FlushDatabase();
+            var endpoints = _database.Multiplexer.GetEndPoints(true);
+            foreach (var endpoint in endpoints)
+            {
+                var server = _database.Multiplexer.GetServer(endpoint);
+                server.FlushDatabase(1);
+            }
         }
 
         public T Get<T>(string key)
