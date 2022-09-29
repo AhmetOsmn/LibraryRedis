@@ -93,11 +93,11 @@
 
     | Turn Windows Features | Subsystem |
     |-|-|
-    |![turn](./Images/01-turnwindows.png)| ![subsystem](./Images/02-windowssubsystem.png)|
+    |![turn](./UI/wwwroot/image/readme/01-turnwindows.png)| ![subsystem](./Images/02-windowssubsystem.png)|
     
 2. Microsoft Store'dan *Ubuntu* uygulamasını indirelim.
 
-    ![Ubuntu](./Images/03-ubuntu.png)
+    ![Ubuntu](./UI/wwwroot/image/readme/03-ubuntu.png)
 
     *Ubuntu*'yu indirdikten sonra uygulamayı açtığımızda karşımıza bir CLI açılacak.
     
@@ -107,33 +107,33 @@
 
      Son olarak artık *Ubuntu* içerisinde işlem yapabilir hale geleceğiz. Örnek olarak olarak alt kısımdaki gibi bir CLI ekranı görüyor olmalıyız.
 
-     ![ubuntucli](./Images/04-ubuntucli.png) 
+     ![ubuntucli](./UI/wwwroot/image/readme/04-ubuntucli.png) 
 
 3. *Ubuntu* içerisinden, Redis'i kullanabilmek için bazı paketler yüklememiz gerekecek. İlk olarak *Redis Labs* içerisinden *redis* repository'sini indirelim.
 
-    ![addrepo](./Images/05-addrepository.png)
+    ![addrepo](./UI/wwwroot/image/readme/05-addrepository.png)
 
 4. Repo yüklendikten sonra *Ubuntu* içerisinde *Update* ve *Upgrade* komutları ile versiyonların güncelliğini kontrol edelim.
 
-    ![updateandupgrade](./Images/06-ubuntuupdateandupgrade.png)
+    ![updateandupgrade](./UI/wwwroot/image/readme/06-ubuntuupdateandupgrade.png)
 
 5. Güncelleme işlemlerinden sonra artık *Redis Server* paketini ekleyebiliriz.
 
-    ![addredisserver](./Images/07-installredisserver.png)
+    ![addredisserver](./UI/wwwroot/image/readme/07-installredisserver.png)
 
     İndirme işleminden sonra alt kısımdaki gibi *Redis Server* için versiyon kontrolü yaparak bir sorun olmadığını kontrol edebiliriz.
 
-    ![redisserverversion](./Images/08-redisserverversion.png)
+    ![redisserverversion](./UI/wwwroot/image/readme/08-redisserverversion.png)
 
 6. Bu aşamaya kadar bir sorun ile karşılaşmadıysak alt kısımda olduğu gibi *Redis Server*'ı aktif hale getirip kullanabiliriz.
 
-    ![runredisserver](./Images/09-runredisserver.png)
+    ![runredisserver](./UI/wwwroot/image/readme/09-runredisserver.png)
 
     Yukarıdaki ekran görüntüsünün alt kısmında yeşil olarak gösterilen alanda server'ın bağlantılar için hazır olduğu bilgisini görebiliriz. 
 
 7. *Redis Server* çalışırken yeni bir Ubuntu CLI açıp server ile iletişim kuralım.
 
-    ![userediscli](./Images/10-userediscliwithserver.png)
+    ![userediscli](./UI/wwwroot/image/readme/10-userediscliwithserver.png)
 
     Server aktif olduğu için Redis CLI'a erişim sağlayabildik. Artık Redis'e ait olan komutlar ile istediğimiz işlemleri buradan gerçekleştirebiliriz. 
 
@@ -141,7 +141,7 @@
 
     İlk olarak server'ı kapatmak istersek bunun farklı yolları var. Alt kısımda verilen örnekte bütün server'ları kapatmak istediğimizi kırmızı olarak işaretlenen komut ile söylüyoruz.
 
-    ![connecterror](./Images/11-connecterror.png)
+    ![connecterror](./UI/wwwroot/image/readme/11-connecterror.png)
 
     Server'ları kapatma komutu ile arka planda *Redis Server*'ın durdurulduğunu sol altta kırmızı olarak işaretlenen alandan görebiliriz. Server'ın çalıştığı *Ubuntu CLI* artık bizden komut alabilir hale geldi.
 
@@ -149,7 +149,7 @@
 
     Server'ın aktif olup olmadığını öğrenmenin başka bir yolu da alt kısımdaki kırmızı olarak işaretlenen komuttur.
 
-    ![ping](./Images/12-ping2.png) 
+    ![ping](./UI/wwwroot/image/readme/12-ping2.png) 
 
     Eğer server aktif ise `ping` komutumuzda bize `PONG` yanıtı gelecektir. Eğer serfer aktif değil ise mavi olarak işaretlenen kısımlarda görüldüğü gibi bağlantı olmadığına dair yanıt dönecektir.
 
