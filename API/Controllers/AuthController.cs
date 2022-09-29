@@ -25,9 +25,7 @@ namespace API.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserLoginDTO dto)
         {
-            // todo: login islemleri redis ile yapilacak mi?
-            // todo: cok fazla if blogu oldu gibi, daha iyi yazilabilir mi?
-
+            
 
             AccessToken tokenFromDb;
 
@@ -47,7 +45,6 @@ namespace API.Controllers
                     user = userFromDb;
                 }
 
-                // todo tek bir yerde tutulacak
 
                 var tokenFromRedis = redisCacheService.Get<AccessToken>("token:" + dto.Username);
 
