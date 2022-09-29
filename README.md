@@ -93,7 +93,7 @@
 
     | Turn Windows Features | Subsystem |
     |-|-|
-    |![turn](./Images/01-turnwindows.png)| ![subsystem](./Images/02-windowssubsystem.png)|
+    |![turn](./UI/wwwroot/image/readme/01-turnwindows.png)| ![subsystem](./Images/02-windowssubsystem.png)|
     
 2. Microsoft Store'dan *Ubuntu* uygulamasını indirelim.
 
