@@ -18,8 +18,8 @@ namespace DAL.Concrete.Redis
         {
             _connection = connection;
             // 0. db
-            _database = _connection.Connection().GetDatabase(1);
-            Clear();
+            _database = _connection.Connection().GetDatabase();
+            //Clear();
         }
 
 
@@ -39,7 +39,7 @@ namespace DAL.Concrete.Redis
         public void Add(string key, object value, DateTime expireTime)
         {
             string jsonData = JsonConvert.SerializeObject(value);
-            TimeSpan expire = new TimeSpan(0, (expireTime.Minute - DateTime.Now.Minute), (expireTime.Second - DateTime.Now.Second));
+            TimeSpan expire = new TimeSpan((expireTime.Day-DateTime.Now.Day), (expireTime.Minute - DateTime.Now.Minute), (expireTime.Second - DateTime.Now.Second));
             _database.StringSet(key, jsonData, expire);
         }
 
