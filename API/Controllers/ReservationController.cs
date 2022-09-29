@@ -43,7 +43,6 @@ namespace API.Controllers
 
             if (result)
             {
-                // todo: eger redis ayakta degil ise rezerve edilen kitap cache'den nasil getirilecek?
                 if (cacheService.IsConnected())
                 {
                     ReservationDTOGet reservationDetail = reservationService.GetReservationDetailForCache(dto.UserID, dto.BookID);

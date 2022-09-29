@@ -31,7 +31,8 @@ namespace UI
                 option.IdleTimeout = TimeSpan.FromMinutes(100);
             });
             services.AddSingleton<IRedisConfig, RedisConfig>();
-            services.AddSingleton<IRedisCacheService, RedisCacheManager>(); services.AddScoped<IWebRequestService, WebRequestManager>();
+            services.AddSingleton<IRedisCacheService, RedisCacheManager>(); 
+            services.AddScoped<IWebRequestService, WebRequestManager>();
             services.AddScoped<IRequestService, RequestManager>();
             services.AddScoped<IFileService, FileManager>();
             services.AddControllersWithViews();

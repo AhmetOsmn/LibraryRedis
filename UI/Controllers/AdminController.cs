@@ -38,12 +38,14 @@ namespace UI.Controllers
         [HttpGet]
         public IActionResult AddCompany()
         {
+            currentUser = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("user"));
             return View();
         }
 
         [HttpPost]
         public async Task<IActionResult> AddCompany(CompanyDTO dto)
         {
+            currentUser = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("user"));
             TokenDTO tokenDto;
 
             if (_cacheService.IsConnected())
@@ -67,6 +69,7 @@ namespace UI.Controllers
         [HttpGet]
         public async Task<IActionResult> AddBook()
         {
+            currentUser = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("user"));
             TokenDTO tokenDto;
 
             if (_cacheService.IsConnected())
@@ -101,6 +104,7 @@ namespace UI.Controllers
         [HttpPost]
         public async Task<IActionResult> AddBook(BookDTO dto)
         {
+            currentUser = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("user"));
             TokenDTO tokenDto;
 
             if (_cacheService.IsConnected())
@@ -130,6 +134,7 @@ namespace UI.Controllers
         [HttpGet]
         public IActionResult LogOut()
         {
+            currentUser = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("user"));
             HttpContext.Session.Clear();
             return RedirectToAction("SignIn", "Home");
         }

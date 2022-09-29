@@ -25,8 +25,6 @@ namespace UI.Controllers
 
         User currentUser;
 
-        // todo: alt kısımlarda token session üzerinden alınıyor. Redis'ten mi alınmalı?
-
         [HttpGet]
         public async Task<IActionResult> Index()
         {
@@ -49,7 +47,6 @@ namespace UI.Controllers
                 tokenDto = JsonConvert.DeserializeObject<TokenDTO>(HttpContext.Session.GetString("token"));                
             }
 
-            // todo: buraya bakılacak, dogru calismiyor sanki
             var books = await _requestService.GetAllBooks(tokenDto);
             return View(books);
         }
