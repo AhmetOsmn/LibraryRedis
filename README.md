@@ -29,8 +29,6 @@
 
 - Temel olarak `Key:Value` olacak şekilde hazırlanan bir `NoSQL` veri tabanıdır diyebiliriz.
 
-- NoSQL Veri Tabanı: 
-
 - In Memory Database yaklaşımını benimseyerek çalışır, eğer tercih edersek opsiyonel olarak disk üzerine yazılabilme özelliği de vardır.
 
 - Oluşturulan instance'lardan bir tane **Master** olarak ayarlanır. Geriye kalan diğer instance'lar **Slave** olarak kalır ve bunlar *Master*'in kopyalarıdır.
@@ -155,12 +153,6 @@
 
 <br>
 
-# Docker İle Redis Kullanmak
-
-
-
-<br>
-
 # Çok Kullanılan Redis CLI Komutları
 
 - `KEYS *`: Var olan Key'leri listeler.
@@ -179,17 +171,10 @@
 
 <br>
 
-# Redis ile örnek proje:
-
-
-
-
-
-<br>
-
 # Kaynak
 
 - (Kablosuz Kedi)[https://www.youtube.com/watch?v=JLS9gg-oJPQ]
 - (Bora Kaşmer)[https://www.youtube.com/c/borakasmer]
+- (Bora Kaşmer)[https://www.borakasmer.com/]
 - (Redis Kurmak)[https://www.youtube.com/watch?v=_nFwPTHOMIY]
 - (Redis)[https://redis.io/]
