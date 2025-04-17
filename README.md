@@ -1,4 +1,4 @@
-# Redir Nedir?
+# Redis Nedir?
 
 - Açılımı *Remote Dictionart Service*'tir. Bazı kaynaklarda açılımı *Remote Directory Server* da olabilmektedir.
 
